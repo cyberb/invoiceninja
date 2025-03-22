@@ -39,6 +39,8 @@ class OAuth
 
     public const SOCIAL_APPLE = 8;
 
+    public const SOCIAL_AUTHELIA = 9;
+
     public $provider_instance;
 
     public $provider_id;
@@ -91,6 +93,8 @@ class OAuth
                 return 'microsoft';
             case self::SOCIAL_APPLE:
                 return 'apple';
+            case self::SOCIAL_AUTHELIA:
+                return 'authelia';
             default:
                 return 'google';
         }
@@ -115,6 +119,8 @@ class OAuth
                 return self::SOCIAL_MICROSOFT;
             case 'apple':
                 return self::SOCIAL_APPLE;
+            case 'authelia':
+                return self::SOCIAL_AUTHELIA;
             default:
                 return self::SOCIAL_GOOGLE;
         }
