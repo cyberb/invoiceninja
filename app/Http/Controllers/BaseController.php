@@ -1141,10 +1141,10 @@ class BaseController extends Controller
             $data = [];
 
             //pass report errors bool to front end
-            $data['report_errors'] = Ninja::isSelfHost() ? $account->report_errors : true;
+            $data['report_errors'] = Ninja::isSelfHost();
 
             //pass whitelabel bool to front end
-            $data['white_label'] = Ninja::isSelfHost() ? $account->isPaid() : false;
+            $data['white_label'] = Ninja::isSelfHost();
 
             //pass referral code to front end
             $data['rc'] = request()->has('rc') && is_string(request()->input('rc')) ? request()->input('rc') : '';
@@ -1165,7 +1165,7 @@ class BaseController extends Controller
 
             $data['path'] = $this->setBuild();
 
-            if (Ninja::isSelfHost() && $account->set_react_as_default_ap) {
+            if (Ninja::isSelfHost()) {
                 return response()->view('react.index', $data)->header('X-Frame-Options', 'SAMEORIGIN', false);
             } else {
                 return response()->view('index.index', $data)->header('X-Frame-Options', 'SAMEORIGIN', false);
