@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c787e27ea4b2220592271d03e13cbcd3",
+    "content-hash": "876e17f1c812d07e8d5b6bbb2aee9c72",
     "packages": [
         {
             "name": "adrienrn/php-mimetyper",
@@ -11642,6 +11642,56 @@
             "time": "2023-12-06T01:26:19+00:00"
         },
         {
+            "name": "socialiteproviders/authelia",
+            "version": "4.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SocialiteProviders/Authelia.git",
+                "reference": "6086d52a4471a4d29cd2eb03916e67af780d3ee3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SocialiteProviders/Authelia/zipball/6086d52a4471a4d29cd2eb03916e67af780d3ee3",
+                "reference": "6086d52a4471a4d29cd2eb03916e67af780d3ee3",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": "^8.2",
+                "socialiteproviders/manager": "^4.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SocialiteProviders\\Authelia\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "yajtpg",
+                    "email": "yajtpg@gmail.com"
+                }
+            ],
+            "description": "Authelia OAuth2 Provider for Laravel Socialite",
+            "keywords": [
+                "authelia",
+                "laravel",
+                "oauth",
+                "provider",
+                "socialite"
+            ],
+            "support": {
+                "docs": "https://socialiteproviders.com/authentik",
+                "issues": "https://github.com/socialiteproviders/providers/issues",
+                "source": "https://github.com/socialiteproviders/providers"
+            },
+            "time": "2025-02-02T20:59:01+00:00"
+        },
+        {
             "name": "socialiteproviders/manager",
             "version": "v4.8.1",
             "source": {
@@ -21235,6 +21285,6 @@
         "ext-libxml": "*",
         "ext-simplexml": "*"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "plugin-api-version": "2.6.0"
 }
