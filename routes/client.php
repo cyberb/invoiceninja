@@ -164,9 +164,9 @@ Route::fallback(function () {
             return redirect('/setup');
         }
 
-        $account = Account::first();
+        //$account = Account::first();
 
-        return $account->set_react_as_default_ap ? response()->view('react.index', [
+        return /* $account->set_react_as_default_ap */ true ? response()->view('react.index', [
             'rc' => request()->input('rc', ''),
             'login' => request()->input('login', ''),
             'signup' => request()->input('signup', ''),
