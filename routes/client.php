@@ -170,7 +170,7 @@ Route::fallback(function () {
             'rc' => request()->input('rc', ''),
             'login' => request()->input('login', ''),
             'signup' => request()->input('signup', ''),
-            'report_errors' => $account->report_errors,
+            'report_errors' => /* $account->report_errors */ 0,
             'user_agent' => request()->server('HTTP_USER_AGENT'),
         ])->header('X-Frame-Options', 'SAMEORIGIN', false) : abort(404);
     }
