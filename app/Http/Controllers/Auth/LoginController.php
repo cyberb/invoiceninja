@@ -242,8 +242,8 @@ class LoginController extends BaseController
                 $message = 'Token is missing for the apple login';
             }
         } elseif (request()->input('provider') == 'authelia') {
-            if (request()->has('id_token')) {
-                $token = request()->input('id_token');
+            if (request()->has('code')) {
+                $token = request()->input('code');
                 return $this->handleSocialiteLogin('authelia', $token);
             } else {
                 $message = 'Token is missing for the authelia login';
