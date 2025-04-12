@@ -688,6 +688,8 @@ class LoginController extends BaseController
 
     public function handleProviderCallback(string $provider)
     {
+        nlog('handleProviderCallback');
+      
         if ($provider == 'microsoft') {
             return $this->handleMicrosoftProviderCallback();
         }
