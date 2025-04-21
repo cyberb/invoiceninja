@@ -706,11 +706,8 @@ class LoginController extends BaseController
             $oauth_user_token = $client->getAccessToken();
         }
 
-        if ($user = OAuth::handleAuth($socialite_user, $provider)) {
-            nlog('found user and updating their user record');
-            $name = OAuth::splitName($socialite_user->getName());
-
-            $update_user = [
+        $name = OAuth::splitName($socialite_user->getName());
+        $account = [
                 'first_name' => $name[0],
                 'last_name' => $name[1],
                 'email' => $socialite_user->getEmail(),
@@ -718,13 +715,16 @@ class LoginController extends BaseController
                 'oauth_provider_id' => $provider,
             ];
 
-            $user->update($update_user);
+        if ($user = OAuth::handleAuth($socialite_user, $provider)) {
+            nlog('updating existing user');
+            $user->update($account);
             $user->oauth_user_token = $oauth_user_token;
             $user->oauth_user_refresh_token = $socialite_user->refreshToken;
             $user->save();
 
         } else {
-            nlog('user not found for oauth');
+            nlog('creating new user');
+            $this->createNewAccount($account);
         }
 
         $redirect_url = '/#/';
