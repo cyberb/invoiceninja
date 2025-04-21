@@ -391,6 +391,7 @@ class LoginController extends BaseController
         $cu = CompanyUser::query()->where('user_id', $user->id);
 
         if ($cu->count() == 0) {
+            nlog('cu count 0');
             return $cu;
         }
 
@@ -638,6 +639,7 @@ class LoginController extends BaseController
         $cu = $this->hydrateCompanyUser();
 
         if ($cu->count() == 0) {
+            nlog('no company user');
             return response()->json(['message' => 'User found, but not attached to any companies, please see your administrator'], 400);
         }
 
@@ -726,6 +728,7 @@ class LoginController extends BaseController
         } else {
             nlog('creating new user');
             $this->createNewAccount($account);
+            nlog('created new user');
         }
 
         $redirect_url = '/#/';
