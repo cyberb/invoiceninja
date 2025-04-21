@@ -695,7 +695,7 @@ class LoginController extends BaseController
         }
 
         $socialite_user = Socialite::driver($provider)->user();
-
+        nlog($socialite_user);
         $oauth_user_token = '';
 
         if ($socialite_user->refreshToken) {
