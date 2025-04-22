@@ -389,9 +389,8 @@ class LoginController extends BaseController
 
         /** @var Builder $cu */
         $cu = CompanyUser::query()->where('user_id', $user->id);
-
+        nlog('company users: '.($cu->count()));
         if ($cu->count() == 0) {
-            nlog('cu count 0');
             return $cu;
         }
 
