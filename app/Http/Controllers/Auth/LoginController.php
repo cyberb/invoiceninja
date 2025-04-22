@@ -623,6 +623,7 @@ class LoginController extends BaseController
 
         $account = (new CreateAccount($new_account, request()->getClientIp()))->handle();
         if (!$account instanceof Account) {
+            nlog("account ({$account}) is not Account");
             return $account;
         }
 
@@ -690,7 +691,7 @@ class LoginController extends BaseController
     public function handleProviderCallback(string $provider)
     {
         nlog('handleProviderCallback');
-      
+
         if ($provider == 'microsoft') {
             return $this->handleMicrosoftProviderCallback();
         }
@@ -726,8 +727,8 @@ class LoginController extends BaseController
 
         } else {
             nlog('creating new user');
-            return $this->createNewAccount($account);
-            //nlog('created new user');
+            $this->createNewAccount($account);
+            nlog('created new user');
         }
 
         $redirect_url = '/#/';
@@ -736,7 +737,7 @@ class LoginController extends BaseController
 
         // if($request_from_react)
         $redirect_url = config('ninja.react_url')."/#/settings/user_details/connect";
-
+        nlog("created new user {$redirect_url}");
         return redirect($redirect_url);
     }
 
