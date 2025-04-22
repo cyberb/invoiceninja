@@ -726,8 +726,8 @@ class LoginController extends BaseController
 
         } else {
             nlog('creating new user');
-            $this->createNewAccount($account);
-            nlog('created new user');
+            return $this->createNewAccount($account);
+            //nlog('created new user');
         }
 
         $redirect_url = '/#/';
