@@ -30,6 +30,7 @@ class TokenAuth
      */
     public function handle($request, Closure $next)
     {
+        nlog('token auth handle');
         if ($request->header('X-API-TOKEN') && ($company_token = CompanyToken::with([
             'user' => [
                 'account',
@@ -40,6 +41,7 @@ class TokenAuth
                 'message' => 'User inactive',
                 'errors' => new stdClass(),
             ];
+            nlog("user: {$user}");
             //user who once existed, but has been soft deleted
             if (! $user) {
                 return response()->json($error, 403);
@@ -88,6 +90,7 @@ class TokenAuth
             }
 
             //stateless, don't remember the user.
+            nlog("login: {$user}");
             auth()->login($user, false);
             auth()->user()->setCompany($company_token->company);
         } else {
@@ -95,7 +98,7 @@ class TokenAuth
                 'message' => 'Invalid token',
                 'errors' => new stdClass(),
             ];
-
+            nlog("error: {$error}");
             return response()->json($error, 403);
         }
 
