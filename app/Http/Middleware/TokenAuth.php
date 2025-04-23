@@ -98,7 +98,7 @@ class TokenAuth
                 'message' => 'Invalid token',
                 'errors' => new stdClass(),
             ];
-            nlog("error: {$error}");
+            nlog("error: {$message}");
             return response()->json($error, 403);
         }
 
