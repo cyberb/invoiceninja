@@ -731,13 +731,16 @@ class LoginController extends BaseController
             nlog('created new user');
         }
 
-        $redirect_url = '/#/';
+        $user = auth()->user();
+        nlog("logged it user {$user}")
 
-        $request_from_react = Cache::pull("react_redir:".auth()->user()?->account?->key);
+        $redirect_url = '/';
+
+//         $request_from_react = Cache::pull("react_redir:".auth()->user()?->account?->key);
 
         // if($request_from_react)
-        $redirect_url = config('ninja.react_url')."/#/settings/user_details/connect";
-        nlog("created new user {$redirect_url}");
+//         $redirect_url = config('ninja.react_url')."/#/settings/user_details/connect";
+        nlog("redirect {$redirect_url}");
         return redirect($redirect_url);
     }
 
