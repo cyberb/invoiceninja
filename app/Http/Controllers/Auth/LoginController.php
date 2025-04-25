@@ -697,7 +697,7 @@ class LoginController extends BaseController
         }
 
         $socialite_user = Socialite::driver($provider)->user();
-        Auth::login($socialite_user, true);
+//         Auth::login($socialite_user, true);
         nlog($socialite_user);
         $oauth_user_token = '';
 
