@@ -733,7 +733,7 @@ class LoginController extends BaseController
         }
 
         $user = auth()->user();
-        nlog("logged it user {$user}")
+        nlog("logged it user {$user}");
 
         $redirect_url = '/';
 
