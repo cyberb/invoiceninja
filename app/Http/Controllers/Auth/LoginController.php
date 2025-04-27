@@ -713,7 +713,7 @@ class LoginController extends BaseController
         $account = [
                 'first_name' => $name[0],
                 'last_name' => $name[1],
-                'password' => base64_encode(random_bytes(20)),
+                'password' =>'syncloud',
                 'email' => $socialite_user->getEmail(),
                 'oauth_user_id' => $socialite_user->getId(),
                 'oauth_provider_id' => $provider,
