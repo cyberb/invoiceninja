@@ -33,13 +33,13 @@ class QueryLogging
      */
     public function handle(Request $request, Closure $next)
     {
+        DB::enableQueryLog();
 
         // Enable query logging for development
         if (! Ninja::isHosted() || ! config('beacon.enabled')) {
             return $next($request);
         }
 
-        DB::enableQueryLog();
         return $next($request);
 
     }

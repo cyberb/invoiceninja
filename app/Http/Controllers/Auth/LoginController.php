@@ -108,6 +108,7 @@ class LoginController extends BaseController
         }
 
         if ($this->attemptLogin($request)) {
+            nlog("LoginSuccess");
             LightLogs::create(new LoginSuccess())
                 ->increment()
                 ->batch();
@@ -159,6 +160,8 @@ class LoginController extends BaseController
 
             return $this->timeConstrainedResponse($cu);
         } else {
+            nlog("LoginFailure");
+
             LightLogs::create(new LoginFailure())
                 ->increment()
                 ->batch();
