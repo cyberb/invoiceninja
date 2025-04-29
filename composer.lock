@@ -21283,7 +21283,8 @@
         "ext-dom": "*",
         "ext-json": "*",
         "ext-libxml": "*",
-        "ext-simplexml": "*"
+        "ext-simplexml": "*",
+        "ext-ldap": "*"
     },
     "platform-dev": {},
     "plugin-api-version": "2.6.0"
