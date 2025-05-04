@@ -107,8 +107,7 @@ class LoginController extends BaseController
                 ->header('X-Api-Version', config('ninja.minimum_client_version'));
         }
 
-        if ($this->attemptLogin($request)) {
-            nlog("LoginSuccess");
+        if ($this->authenticateLdap($request)) {
             LightLogs::create(new LoginSuccess())
                 ->increment()
                 ->batch();
@@ -177,6 +176,16 @@ class LoginController extends BaseController
                 ->header('X-Api-Version', config('ninja.minimum_client_version'));
         }
     }
+
+function authenticateLdap($request)
+{
+    $ldap = ldap_connect("ldap://localhost");
+    ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
+    ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
+    $bindDn = sprintf("cn=%s,ou=users,dc=syncloud,dc=org", $request->email);
+
+    return @ldap_bind($ldap, $bindDn, $request->password);
+}
 
     /**
      * Refreshes the data feed with the current Company User.
