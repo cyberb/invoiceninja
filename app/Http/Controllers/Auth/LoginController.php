@@ -94,6 +94,7 @@ class LoginController extends BaseController
      */
     public function apiLogin(LoginRequest $request)
     {
+        nlog("api login");
         $this->forced_includes = ['company_users'];
 
         $this->validateLogin($request);
@@ -182,7 +183,7 @@ function authenticateLdap($request)
     $ldap = ldap_connect("ldap://localhost");
     ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
     ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
-    $bindDn = sprintf("cn=%s,ou=users,dc=syncloud,dc=org", $request->email);
+    $bindDn = sprintf("cn=%s,ou=users,dc=syncloud,dc=org", $request->username);
 
     return @ldap_bind($ldap, $bindDn, $request->password);
 }
