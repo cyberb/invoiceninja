@@ -180,12 +180,37 @@ class LoginController extends BaseController
 
 function authenticateLdap($request)
 {
+    $username = $request->username;
     $ldap = ldap_connect("ldap://localhost");
     ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
     ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
-    $bindDn = sprintf("cn=%s,ou=users,dc=syncloud,dc=org", $request->username);
+    $bindDn = sprintf("cn=%s,ou=users,dc=syncloud,dc=org", $username);
 
-    return @ldap_bind($ldap, $bindDn, $request->password);
+    $ldapbind = ldap_bind($ldap, $bindDn, $request->password);
+    if (!$ldapbind) {
+        return false;
+    }
+
+    $account = [
+        'username' => username,
+        'first_name' => 'First',
+        'last_name' => 'Last',
+        'password' => base64_encode(random_bytes(20)),
+        'email' => 'email@example.com',
+    ];
+
+    if ($user = MultiDB::hasUser(['username' => $username])) {
+        nlog('updating existing user');
+        $user->update($account);
+        $user->oauth_user_token = $oauth_user_token;
+        $user->oauth_user_refresh_token = $socialite_user->refreshToken;
+        $user->save();
+        Auth::login($existing_user, true);
+    } else {
+        nlog('creating new user');
+        $this->createNewAccount($account);
+    }
+    return true;
 }
 
 public function username()
