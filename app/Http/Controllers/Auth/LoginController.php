@@ -188,6 +188,11 @@ function authenticateLdap($request)
     return @ldap_bind($ldap, $bindDn, $request->password);
 }
 
+public function username()
+{
+    return 'username';
+}
+
     /**
      * Refreshes the data feed with the current Company User.
      *

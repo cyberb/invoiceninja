@@ -44,7 +44,7 @@ function nlog($output, $context = []): void
         } catch (\Exception $e) {
         }
     } else {
-        \Illuminate\Support\Facades\Log::channel('invoiceninja')->info($output, $context);
+        \Illuminate\Support\Facades\Log::channel('syslog')->info($output, $context);
     }
 
     $output = null;
