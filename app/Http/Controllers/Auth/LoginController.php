@@ -192,19 +192,18 @@ function authenticateLdap($request)
     }
 
     $account = [
-        'username' => $username,
+        'email' => $username,
         'first_name' => 'First',
         'last_name' => 'Last',
-        'password' => base64_encode(random_bytes(20)),
-        'email' => 'email@example.com',
+        'password' => base64_encode(random_bytes(20))
     ];
 
-    if ($user = MultiDB::hasUser(['username' => $username])) {
-        nlog('updating existing user');
-        $user->update($account);
-        $user->oauth_user_token = $oauth_user_token;
-        $user->oauth_user_refresh_token = $socialite_user->refreshToken;
-        $user->save();
+    if ($user = MultiDB::hasUser(['email' => $username])) {
+        nlog('existing user');
+        //$user->update($account);
+        //$user->oauth_user_token = $oauth_user_token;
+        //$user->oauth_user_refresh_token = $socialite_user->refreshToken;
+        //$user->save();
         Auth::login($existing_user, true);
     } else {
         nlog('creating new user');
