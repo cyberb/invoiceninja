@@ -45,6 +45,7 @@ use Laracasts\Presenter\PresentableTrait;
  * @property string|null $ip
  * @property string|null $device_token
  * @property string $email
+ * @property string $username
  * @property string|null $email_verified_at
  * @property string|null $confirmation_code
  * @property int|null $theme_id

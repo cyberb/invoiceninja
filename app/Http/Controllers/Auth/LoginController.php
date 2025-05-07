@@ -192,13 +192,13 @@ function authenticateLdap($request)
     }
 
     $account = [
-        'email' => $username,
+        'username' => $username,
         'first_name' => 'First',
         'last_name' => 'Last',
         'password' => base64_encode(random_bytes(20))
     ];
 
-    if ($user = MultiDB::hasUser(['email' => $username])) {
+    if ($user = MultiDB::hasUser(['username' => $username])) {
         nlog('existing user');
         //$user->update($account);
         //$user->oauth_user_token = $oauth_user_token;
