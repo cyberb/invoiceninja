@@ -186,16 +186,22 @@ function authenticateLdap($request)
     ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
     $bindDn = sprintf("cn=%s,ou=users,dc=syncloud,dc=org", $username);
 
-    $ldapbind = ldap_bind($ldap, $bindDn, $request->password);
-    if (!$ldapbind) {
+    $conn = ldap_bind($ldap, $bindDn, $request->password);
+    if (!$conn) {
         return false;
     }
 
+    $dn = "ou=users,dc=syncloud,dc=org";
+    $filter="(&(objectclass=inetOrgPerson)(cn=$username))";
+    $fields = array("sn", "givenname", "mail");
+    $result=ldap_search($conn, $dn, $filter, $fields);
+    $results = ldap_get_entries($ds, $result);
+
     $account = [
         'username' => $username,
-        'email' => $username,
-        'first_name' => 'First',
-        'last_name' => 'Last',
+        'email' => $results[0]["email"],
+        'first_name' => $results[0]["givenname"],
+        'last_name' => $results[0]["sn"],
         'password' => base64_encode(random_bytes(20))
     ];
 
