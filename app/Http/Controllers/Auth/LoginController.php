@@ -179,7 +179,7 @@ class LoginController extends BaseController
     }
 
 function authenticate($request) {
- if (config('ldap_enabled')) {
+ if (config('ninja.ldap_enabled')) {
     return $this->authenticateLdap($request);
  }
  return $this->attemptLogin($request);
@@ -188,18 +188,18 @@ function authenticate($request) {
 function authenticateLdap($request)
 {
     $username = $request->username;
-    $conn = ldap_connect(config('ldap_uri'));
+    $conn = ldap_connect(config('ninja.ldap_uri'));
     ldap_set_option($conn, LDAP_OPT_PROTOCOL_VERSION, 3);
     ldap_set_option($conn, LDAP_OPT_REFERRALS, 0);
-    $bindDn = sprintf(config('ldap_bind_dn'), $username);
+    $bindDn = sprintf(config('ninja.ldap_bind_dn'), $username);
 
     $success = ldap_bind($conn, $bindDn, $request->password);
     if (!$success) {
         return false;
     }
 
-    $dn = config('ldap_user_search_dn');
-    $filter=sprintf(config('ldap_search_filter'), $username);
+    $dn = config('ninja.ldap_user_search_dn');
+    $filter=sprintf(config('ninja.ldap_search_filter'), $username);
     $fields = array("sn", "givenname", "mail");
     $result=ldap_search($conn, $dn, $filter, $fields);
     $results = ldap_get_entries($conn, $result);
