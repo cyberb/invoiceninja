@@ -181,13 +181,13 @@ class LoginController extends BaseController
 function authenticateLdap($request)
 {
     $username = $request->username;
-    $ldap = ldap_connect("ldap://localhost");
-    ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
-    ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
+    $conn = ldap_connect("ldap://localhost");
+    ldap_set_option($conn, LDAP_OPT_PROTOCOL_VERSION, 3);
+    ldap_set_option($conn, LDAP_OPT_REFERRALS, 0);
     $bindDn = sprintf("cn=%s,ou=users,dc=syncloud,dc=org", $username);
 
-    $conn = ldap_bind($ldap, $bindDn, $request->password);
-    if (!$conn) {
+    $success = ldap_bind($conn, $bindDn, $request->password);
+    if (!$success) {
         return false;
     }
 
@@ -195,7 +195,7 @@ function authenticateLdap($request)
     $filter="(&(objectclass=inetOrgPerson)(cn=$username))";
     $fields = array("sn", "givenname", "mail");
     $result=ldap_search($conn, $dn, $filter, $fields);
-    $results = ldap_get_entries($ds, $result);
+    $results = ldap_get_entries($conn, $result);
 
     $account = [
         'username' => $username,
