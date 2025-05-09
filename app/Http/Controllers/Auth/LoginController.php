@@ -180,9 +180,9 @@ class LoginController extends BaseController
 
 function authenticate($request) {
  if (config('ldap_enabled')) {
-    return $this->authenticateLdap($request)
+    return $this->authenticateLdap($request);
  }
- return $this->attemptLogin($request)
+ return $this->attemptLogin($request);
 }
 
 function authenticateLdap($request)
