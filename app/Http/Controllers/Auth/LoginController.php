@@ -199,7 +199,7 @@ function authenticateLdap($request)
 
     $account = [
         'username' => $username,
-        'email' => $results[0]["email"],
+        'email' => $results[0]["mail"],
         'first_name' => $results[0]["givenname"],
         'last_name' => $results[0]["sn"],
         'password' => base64_encode(random_bytes(20))
