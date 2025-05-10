@@ -199,7 +199,7 @@ function authenticateLdap($request)
     }
 
     $dn = config('ninja.ldap_user_search_dn');
-    $filter=sprintf(config('ninja.ldap_search_filter'), $username);
+    $filter=sprintf(config('ninja.ldap_user_search_filter'), $username);
     $fields = array("sn", "givenname", "mail");
     $result=ldap_search($conn, $dn, $filter, $fields);
     $results = ldap_get_entries($conn, $result);
