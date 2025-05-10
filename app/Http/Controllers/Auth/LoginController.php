@@ -203,13 +203,20 @@ function authenticateLdap($request)
     $fields = array("sn", "givenName", "mail");
     $result=ldap_search($conn, $dn, $filter, $fields);
     $results = ldap_get_entries($conn, $result);
+    $email = $results[0]["mail"] ?? '';
+    nlog("email: ".$email);
+    $firstname = $results[0]["givenName"] ?? '';
+    nlog("firstname: ".$firstname);
+    $lastname = $results[0]["sn"] ?? '';
+    nlog("lastname: ".$lastname);
+    $password = base64_encode(random_bytes(20))
 
     $account = [
         'username' => $username,
-        'email' => $results[0]["mail"] ?? '',
-        'first_name' => $results[0]["givenName"] ?? '',
-        'last_name' => $results[0]["sn"] ?? '',
-        'password' => base64_encode(random_bytes(20))
+        'email' => $email,
+        'first_name' => $firstname,
+        'last_name' => $lastname,
+        'password' => $password
     ];
 
     if ($user = MultiDB::hasUser(['username' => $username])) {
