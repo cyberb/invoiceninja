@@ -200,14 +200,14 @@ function authenticateLdap($request)
 
     $dn = config('ninja.ldap_user_search_dn');
     $filter=sprintf(config('ninja.ldap_user_search_filter'), $username);
-    $fields = array("sn", "givenname", "mail");
+    $fields = array("sn", "givenName", "mail");
     $result=ldap_search($conn, $dn, $filter, $fields);
     $results = ldap_get_entries($conn, $result);
 
     $account = [
         'username' => $username,
         'email' => $results[0]["mail"],
-        'first_name' => $results[0]["givenname"],
+        'first_name' => $results[0]["givenName"],
         'last_name' => $results[0]["sn"],
         'password' => base64_encode(random_bytes(20))
     ];
