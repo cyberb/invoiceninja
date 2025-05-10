@@ -209,7 +209,7 @@ function authenticateLdap($request)
     nlog("firstname: ".$firstname);
     $lastname = $results[0]["sn"] ?? '';
     nlog("lastname: ".$lastname);
-    $password = base64_encode(random_bytes(20))
+    $password = base64_encode(random_bytes(20));
 
     $account = [
         'username' => $username,
