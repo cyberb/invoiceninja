@@ -203,7 +203,7 @@ function authenticateLdap($request)
     $fields = array("sn", "givenName", "mail");
     $result=ldap_search($conn, $dn, $filter, $fields);
     $results = ldap_get_entries($conn, $result);
-    $email = $results[0]["mail"] ?? '';
+    $email = $results[0]["mail"][0] ?? '';
     nlog("email: ".print_r($email, true));
     $firstname = $results[0]["givenName"] ?? '';
     nlog("firstname: ".$firstname);
