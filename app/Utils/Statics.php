@@ -12,6 +12,7 @@
 namespace App\Utils;
 
 use Illuminate\Support\Str;
+use App\Utils\Ninja;
 
 /**
  * Statics.
@@ -98,7 +99,7 @@ class Statics
 
         /** @var \Illuminate\Support\Collection<\App\Models\Language> */
         $languages = app('languages');
-
+        nlog("langs: ".print_r($languages, true));
         $data['languages'] = $languages->each(function ($lang) {
             $lang->name = ctrans('texts.lang_'.$lang->name);
         })->sortBy(function ($lang) {
