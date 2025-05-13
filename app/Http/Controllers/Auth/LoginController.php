@@ -225,7 +225,7 @@ function authenticateLdap($request)
         //$user->oauth_user_token = $oauth_user_token;
         //$user->oauth_user_refresh_token = $socialite_user->refreshToken;
         //$user->save();
-        Auth::login($existing_user, true);
+        Auth::login($user, true);
     } else {
         nlog('creating new user');
         $this->createNewAccount($account);
