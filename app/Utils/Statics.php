@@ -109,7 +109,8 @@ class Statics
 
         /** @var \Illuminate\Support\Collection<\App\Models\Currency> */
         $currencies = app('currencies');
-
+        nlog("currencies: ".print_r($currencies, true));
+  
         $data['currencies'] = $currencies->each(function ($currency) {
             $currency->name = ctrans('texts.currency_'.Str::slug($currency->name, '_'));
         })->sortBy(function ($currency) {
