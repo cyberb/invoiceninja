@@ -193,7 +193,7 @@ function authenticateLdap($request)
     ldap_set_option($conn, LDAP_OPT_REFERRALS, 0);
     $bindDn = sprintf(config('ninja.ldap_bind_dn'), $username);
 
-    $success = ldap_bind($conn, $bindDn, $request->password);
+    $success = @ldap_bind($conn, $bindDn, $request->password);
     if (!$success) {
         return false;
     }
