@@ -45,7 +45,7 @@ use Laracasts\Presenter\PresentableTrait;
  * @property string|null $ip
  * @property string|null $device_token
  * @property string $email
- * @property string $username
+ * @property string $ldap_username
  * @property string|null $email_verified_at
  * @property string|null $confirmation_code
  * @property int|null $theme_id
@@ -150,7 +150,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'first_name',
         'last_name',
         'email',
-        'username',
+        'ldap_username',
         'phone',
         'signature',
         'avatar',
@@ -732,7 +732,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function updateReferral(ReferralEarning $entity)
     {
-        
+
         $earnings = collect($this->referral_earnings);
 
         $updated_earnings = $earnings->map(function ($earning) use ($entity) {

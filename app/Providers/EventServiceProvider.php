@@ -661,7 +661,6 @@ class EventServiceProvider extends ServiceProvider
             // ... Manager won't register drivers that are not added to this listener.
             \SocialiteProviders\Apple\AppleExtendSocialite::class.'@handle',
             \SocialiteProviders\Microsoft\MicrosoftExtendSocialite::class.'@handle',
-            \SocialiteProviders\Authelia\AutheliaExtendSocialite::class.'@handle',
         ],
 
     ];

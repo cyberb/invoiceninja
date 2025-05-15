@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('username', 100)->unique();
+            $table->string('ldap_username', 100)->nullable()->unique();
         });
     }
 
@@ -21,6 +21,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        
+
     }
 };

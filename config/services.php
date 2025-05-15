@@ -72,13 +72,6 @@ return [
         'redirect' => env('APPLE_REDIRECT_URI'),
     ],
 
-    'authelia' => [
-        'base_url' => env('AUTHELIA_BASE_URL'),
-        'client_id' => env('AUTHELIA_CLIENT_ID'),
-        'client_secret' => env('AUTHELIA_CLIENT_SECRET'),
-        'redirect' => env('AUTHELIA_REDIRECT_URI'),
-    ],
-
     'ses' => [
         'key' => env('AWS_ACCESS_KEY_ID'),
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
