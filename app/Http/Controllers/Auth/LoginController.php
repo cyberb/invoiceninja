@@ -23,6 +23,7 @@ use App\Jobs\Company\CreateCompanyToken;
 use App\Libraries\MultiDB;
 use App\Libraries\OAuth\OAuth;
 use App\Libraries\OAuth\Providers\Google;
+use App\Libraries\Ldap\Ldap;
 use App\Models\Account;
 use App\Models\CompanyToken;
 use App\Models\CompanyUser;
@@ -108,7 +109,7 @@ class LoginController extends BaseController
                 ->header('X-Api-Version', config('ninja.minimum_client_version'));
         }
 
-        if ($this->authenticateLdap($request)) {
+        if ($this->authenticate($request)) {
             LightLogs::create(new LoginSuccess())
                 ->increment()
                 ->batch();
@@ -179,52 +180,21 @@ class LoginController extends BaseController
     }
 
 function authenticate($request) {
- if (config('ninja.ldap_enabled')) {
-    return $this->authenticateLdap($request);
- }
- return $this->attemptLogin($request);
+    if (config('ninja.ldap_enabled')) {
+        return $this->authenticateLdap($request->username, $request->password);
+    }
+    return $this->attemptLogin($request);
 }
 
-function authenticateLdap($request)
+function authenticateLdap($username, $password)
 {
-    $username = $request->username;
-    $conn = ldap_connect(config('ninja.ldap_uri'));
-    ldap_set_option($conn, LDAP_OPT_PROTOCOL_VERSION, 3);
-    ldap_set_option($conn, LDAP_OPT_REFERRALS, 0);
-    $bindDn = sprintf(config('ninja.ldap_bind_dn'), $username);
-
-    $success = @ldap_bind($conn, $bindDn, $request->password);
-    if (!$success) {
+    $account = Ldap::authenticateAndFind($username, $password);
+    if ($account === null) {
         return false;
     }
 
-    $dn = config('ninja.ldap_user_search_dn');
-    $filter=sprintf(config('ninja.ldap_user_search_filter'), $username);
-    $fields = array("sn", "givenname", "mail");
-    $result=ldap_search($conn, $dn, $filter, $fields);
-    $results = ldap_get_entries($conn, $result);
-    $email = $results[0]["mail"][0] ?? '';
-    nlog("email: ".print_r($email, true));
-    $firstname = $results[0]["givenname"][0] ?? '';
-    nlog("firstname: ".$firstname);
-    $lastname = $results[0]["sn"][0] ?? '';
-    nlog("lastname: ".$lastname);
-    $password = base64_encode(random_bytes(20));
-
-    $account = [
-        'ldap_username' => $username,
-        'email' => $email,
-        'first_name' => $firstname,
-        'last_name' => $lastname,
-        'password' => $password
-    ];
-
     if ($user = MultiDB::hasUser(['ldap_username' => $username])) {
         nlog('existing user');
-        //$user->update($account);
-        //$user->oauth_user_token = $oauth_user_token;
-        //$user->oauth_user_refresh_token = $socialite_user->refreshToken;
-        //$user->save();
         Auth::login($user, true);
     } else {
         nlog('creating new user');

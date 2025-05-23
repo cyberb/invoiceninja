@@ -13,6 +13,7 @@ namespace App\Http\Middleware;
 
 use App\Libraries\MultiDB;
 use App\Libraries\OAuth\Providers\Google;
+use App\Libraries\Ldap\Ldap;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -113,6 +114,8 @@ class PasswordProtection
 
 
             return response()->json($error, 412);
+        } elseif ($x_api_password && config('ninja.ldap_enabled') && Ldap::authenticate(auth()->user()->ldap_username, $x_api_password))) {
+            return $next($request);
         } elseif ($x_api_password && Hash::check($x_api_password, auth()->user()->password)) {
             Cache::put(auth()->user()->hashed_id.'_'.auth()->user()->account_id.'_logged_in', Str::random(64), $timeout);
 
